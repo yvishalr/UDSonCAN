@@ -178,16 +178,29 @@ void display_frame(uint8_t frame[])
 }
 
 // Generate a (request) single frame with a DID
-void single_frame_did(uint8_t frame[], uint8_t pci_length, uint8_t SID, uint16_t DID, uint64_t data_record)
+void single_frame_did(uint8_t frame[], uint8_t pci_length, uint8_t SID, uint16_t DID, uint64_t data_param)
 {
     frame[0] = (0x00U) | pci_length;
     frame[1] = SID;
     frame[2] = (DID >> 8) & 0xFFU;
     frame[3] = DID & 0xFFU;
-    frame[4] = (data_record >> (pci_length - 4) * 8) & 0xFFU;
-    frame[5] = (data_record >> (pci_length - 5) * 8) & 0xFFU;
-    frame[6] = (data_record >> (pci_length - 6) * 8) & 0xFFU;
-    frame[7] = (data_record >> (pci_length - 7) * 8) & 0xFFU;
+    frame[4] = (data_param >> (pci_length - 4) * 8) & 0xFFU;
+    frame[5] = (data_param >> (pci_length - 5) * 8) & 0xFFU;
+    frame[6] = (data_param >> (pci_length - 6) * 8) & 0xFFU;
+    frame[7] = (data_param >> (pci_length - 7) * 8) & 0xFFU;
+}
+
+// Generate (request) single frame with subfunction
+void single_frame_subf(uint8_t frame[], uint8_t pci_length, uint8_t SID, uint8_t subfunc, uint8_t data_param[])
+{
+    frame[0] = (0x00U) | pci_length;
+    frame[1] = SID;
+    frame[2] = subfunc;
+    frame[3] = data_param[0];
+    frame[4] = data_param[1];
+    frame[5] = data_param[2];
+    frame[6] = data_param[3];
+    frame[7] = data_param[4];
 }
 
 // Generate flow control frames
