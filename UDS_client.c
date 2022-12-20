@@ -19,22 +19,18 @@ uint8_t ST = 0;
 /* MAIN */
 int main(void)
 {
-    // example single frame with DID
-    PCI = 0x6;
-    single_frame_did(f, PCI, SID->RDBI, DID->KILOMETRAGE, DATA);
-    display_frame(f);
+    // Initialising frame;
+    f[0] = f[1] = f[2] = f[3] = f[4] = f[5] = f[6] = f[7] = 0x00;
+
+    // // example single frame with DID
+    // PCI = 0x6;
+    // single_frame_did(f, PCI, SID->WDBI, DID->KILOMETRAGE, DATA);
+    // display_frame(f);
 
     // example single frame with a subfunction
     PCI = 0x7;
-    SUBFUNCTION = SID->subf.sub_0 | (suppressPosRspMsgIndicationBit << 7);
+    SUBFUNCTION = SID->subf.sub_1 | (suppressPosRspMsgIndicationBit << 7);
     single_frame_subf(f, PCI, SID->TP, SUBFUNCTION, DATA_ARRAY);
-    display_frame(f);
-
-    // example FC frame
-    MODE = 1;
-    BLOCKSIZE = 1;
-    ST = 1;
-    flow_control_frame(f, MODE, BLOCKSIZE, ST);
     display_frame(f);
 
     return 0;
