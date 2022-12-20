@@ -2,6 +2,9 @@
 #include <stdint.h>
 #include <stdio.h>
 
+/* Frame */
+uint8_t f[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+
 /* SID Definitions */
 static const struct UDS_service_identifier
 {

@@ -1,7 +1,6 @@
 #include "UDS.h"
 
 /* general definitions */
-uint8_t f[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 uint8_t PCI;
 
 /* data parameter definitions for with DID and with subfunction respectively */
