@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 /* Frame */
-uint8_t f[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+uint8_t f[8] = {0};
 
 /* SID Definitions */
 static const struct UDS_service_identifier
@@ -212,5 +212,5 @@ void flow_control_frame(uint8_t frame[], uint8_t mode, uint8_t blockSize, uint8_
     frame[0] = (0x3U << 4) | mode;
     frame[1] = blockSize;
     frame[2] = separation_time;
-    frame[3] = frame[4] = frame[5] = frame[6] = frame[7] = 0x00;
+    frame[3] = frame[4] = frame[5] = frame[6] = frame[7] = 0xAA;
 }
