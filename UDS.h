@@ -214,3 +214,12 @@ void flow_control_frame(uint8_t frame[], uint8_t mode, uint8_t blockSize, uint8_
     frame[2] = separation_time;
     frame[3] = frame[4] = frame[5] = frame[6] = frame[7] = 0xAA;
 }
+
+void negative_response_frame(uint8_t frame[], uint8_t NRC)
+{
+    frame[0] = 0x3U;
+    frame[2] = frame[1];
+    frame[1] = 0x7FU;
+    frame[3] = NRC;
+    frame[4] = frame[5] = frame[6] = frame[7] = 0x00;
+}
