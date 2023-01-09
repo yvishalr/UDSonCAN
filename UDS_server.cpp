@@ -8,8 +8,17 @@ uint8_t currentSession = 0x01U;
 uint8_t stored_SID[] = {0x22, 0x3E, 0x2E, 0x10, 0x11};
 
 /* All valid DIDs with corresponding virtual register values for example script */
-uint16_t stored_DID[] = {0x1401, 0x1402, 0x1403, 0x1404, 0x1405};
-uint8_t register_data[] = {0x1F, 0x2F, 0x3F, 0x4F, 0x5F};
+const struct stored_messages
+{
+    uint16_t stored_DID;
+    uint8_t data;
+    uint8_t session_requirement;
+} m[] = {
+    {.stored_DID = 0x1401U, .data = 0x1F, .session_requirement = 0x01U},
+    {.stored_DID = 0x1402U, .data = 0x2F, .session_requirement = 0x01U},
+    {.stored_DID = 0x1403U, .data = 0x3F, .session_requirement = 0x01U},
+    {.stored_DID = 0x1404U, .data = 0x4F, .session_requirement = 0x03U},
+    {.stored_DID = 0x1405U, .data = 0x5F, .session_requirement = 0x03U}};
 
 /* Method prototypes */
 // Cases
@@ -49,10 +58,8 @@ int main(void)
             session_change_pass();
             writeSession();
         }
-        else if (currentSession == 0x03)
-            service_present();
         else
-            session_check_fail();
+            service_present();
     }
     else
     {
@@ -72,7 +79,7 @@ void service_present()
     static uint16_t searchDID = (f[2] << 8) | f[3];
     for (short i = 0; i < 5; i++)
     {
-        if (stored_DID[i] == searchDID)
+        if (m[i].stored_DID == searchDID)
         {
             flagD = i + 1;
             break;
@@ -81,12 +88,17 @@ void service_present()
 
     if (flagD)
     {
-        printf("\nPositive Response :- \n");
+        if (m[flagD - 1].session_requirement == currentSession)
+        {
+            printf("\nPositive Response :- \n");
 
-        f[0] = 0x4U; // specify pci length here, assumed 4
-        f[1] = f[1] + 0x40U;
-        f[4] = register_data[flagD - 1];
-        f[5] = f[6] = f[7] = 0x00;
+            f[0] = 0x4U; // specify pci length here, assumed 4
+            f[1] = f[1] + 0x40U;
+            f[4] = m[flagD - 1].data;
+            f[5] = f[6] = f[7] = 0x00;
+        }
+        else
+            session_check_fail();
     }
     else
     {
@@ -126,7 +138,7 @@ void session_change_pass()
 }
 
 /*-----------------------------------------------------------------------*/
-/* File operation methods */
+/* File operations */
 
 void readFrame()
 {

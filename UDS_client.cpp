@@ -35,7 +35,7 @@ int main(void)
     // example single frame with a subfunction
     PCI = 0x3;
     SUBFUNCTION = SID->subf.sub_4 | (suppressPosRspMsgIndicationBit << 7);
-    single_frame_did(f, PCI, SID->RDTCI, 0x1408, 0x00);
+    single_frame_did(f, PCI, SID->RDBI, 0x1404, 0x00);
 
     // imitate sending frame into bus
     writeFrame();
