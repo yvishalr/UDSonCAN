@@ -26,6 +26,7 @@ void service_not_supported();
 void service_present();
 void session_check_fail();
 void session_change_pass();
+void session_change_fail();
 
 // File
 void readFrame();
@@ -55,8 +56,13 @@ int main(void)
     {
         if (f[1] == 0x10)
         {
-            session_change_pass();
-            writeSession();
+            if (f[2] == 0x02 && currentSession == 0x01)
+                session_change_fail(); // defaultSession to programmingSession is unallowed
+            else
+            {
+                session_change_pass();
+                writeSession();
+            }
         }
         else
             service_present();
@@ -86,7 +92,16 @@ void service_present()
         }
     }
 
-    if (flagD)
+    if (searchDID == 0xF186)
+    {
+        printf("\nPositive Response :- \n");
+
+        f[0] = 0x4U; // specify pci length here, assumed 4
+        f[1] = f[1] + 0x40U;
+        f[4] = currentSession;
+        f[5] = f[6] = f[7] = 0x00;
+    }
+    else if (flagD)
     {
         if (m[flagD - 1].session_requirement == currentSession)
         {
@@ -131,10 +146,18 @@ void session_change_pass()
 
     f[0] = 0x4U; // specify pci length here, assumed 4
     f[1] = f[1] + 0x40U;
-    f[3] = 0xAA;
-    f[4] = 0xAA;
-    f[5] = 0xAA;
-    f[6] = 0xAA;
+    f[3] = 0xAAU;
+    f[4] = 0xAAU;
+    f[5] = 0xAAU;
+    f[6] = 0xAAU;
+}
+
+void session_change_fail()
+{
+    printf("\nNegative Response :- \n");
+
+    // NRC : Conditions Not Correct
+    negative_response_frame(f, 0x22U);
 }
 
 /*-----------------------------------------------------------------------*/

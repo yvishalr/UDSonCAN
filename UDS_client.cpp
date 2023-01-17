@@ -29,13 +29,13 @@ int main(void)
     // example for session control
     PCI = 0x2;
     DATA_ARRAY[0] = DATA_ARRAY[1] = DATA_ARRAY[2] = DATA_ARRAY[3] = DATA_ARRAY[4] = 0x00;
-    SUBFUNCTION = SID->subf.sub_1;
+    SUBFUNCTION = SID->subf.sub_2;
     // single_frame_subf(f, PCI, SID->DSC, SUBFUNCTION, DATA_ARRAY);
 
     // example single frame with a subfunction
     PCI = 0x3;
     SUBFUNCTION = SID->subf.sub_4 | (suppressPosRspMsgIndicationBit << 7);
-    single_frame_did(f, PCI, SID->RDBI, 0x1404, 0x00);
+    single_frame_did(f, PCI, SID->RDBI, 0xF186, 0x00);
 
     // imitate sending frame into bus
     writeFrame();

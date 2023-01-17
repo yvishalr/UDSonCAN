@@ -215,6 +215,7 @@ void flow_control_frame(uint8_t frame[], uint8_t mode, uint8_t blockSize, uint8_
     frame[3] = frame[4] = frame[5] = frame[6] = frame[7] = 0xAA;
 }
 
+// Generate a negative response
 void negative_response_frame(uint8_t frame[], uint8_t NRC)
 {
     frame[0] = 0x3U;
