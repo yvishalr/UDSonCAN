@@ -18,19 +18,34 @@ Similarly, `DID` pointer available for data identifiers
 
 #### Methods
 
-`display_frame(uint8_t *frame)`
+```C
+display_frame(uint8_t *frame)
+```
+
 Display any 8 byte frame in the terminal
 
-`single_frame_did(uint8_t *frame, uint8_t pci_length, uint8_t SID, uint16_t DID, uint64_t data_param)`
+```C
+single_frame_did(uint8_t *frame, uint8_t pci_length, uint8_t SID, uint16_t DID, uint64_t data_param)
+```
+
 Generate a single frame (request frame) that contains a DID
 
-`single_frame_subf(uint8_t *frame, uint8_t pci_length, uint8_t SID, uint8_t subfunc, uint8_t *data_param)`
+```C
+single_frame_subf(uint8_t *frame, uint8_t pci_length, uint8_t SID, uint8_t subfunc, uint8_t *data_param)
+```
+
 Generate a single frame (request frame) that contains a subfunction
 
-`flow_control_frame(uint8_t *frame, uint8_t mode, uint8_t blockSize, uint8_t separation_time)`
+```C
+flow_control_frame(uint8_t *frame, uint8_t mode, uint8_t blockSize, uint8_t separation_time)
+```
+
 Generate a flow control frame (CAN-TP/ISO-TP)
 
-`negative_response_frame(uint8_t *frame, uint8_t NRC)`
+```C
+negative_response_frame(uint8_t *frame, uint8_t NRC)
+```
+
 Generate a negative response frame (usage only within server scripts)
 
 ## UDS_client.cpp
@@ -49,10 +64,17 @@ They both serve the same purpose (any data payload to be sent), function definit
 
 #### Methods
 
-`writeFrame()`
+```C
+ writeFrame()
+```
+
 Writes the UDS frame array into the messages.txt file.
 
-`main()` is responsible for how the ECU functions, i.e, the order in which messages are sent and their contents.
+```C
+main()
+```
+
+is responsible for how the ECU functions, i.e, the order in which messages are sent and their contents.
 
 > NOTE : Only one message can be sent onto the 'BUS' upon the execution of this script. main() has been programmed to write onto the bus only once.
 
@@ -73,12 +95,14 @@ In accordance with this, very primitive implementations of certain positive and 
 
 #### Methods
 
-```
+```C
+
 void service_not_supported();
 void service_present();
 void session_check_fail();
 void session_change_pass();
 void session_change_fail();
+
 ```
 
 Are all different response types to a given request frame.
