@@ -11,6 +11,8 @@ Implementations of major ISO-TP frames aswell as a general method for Negative R
 
 `f` is a global array that is supposed to act as the frame throughout every script. This is feasible since the CAN protocol allows only the transmission of a single frame at a time through the BUS and this project is trying to imitate UDSonCAN.
 
+Every frame is required to follow the UDS message format specified within ISO 14229 - 1. The basic message format is as follows :
+
 `SID` pointer can be used to reference any valid UDS service identifiers.
 Similarly, `DID` pointer available for data identifiers
 
